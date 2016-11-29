@@ -12,7 +12,9 @@ class Generator
 
 //class member functions
 public:
-	Generator(vector<string> names, int max_size);
+	//constructor, takes input names and max length of generated words
+	Generator(vector<string> names, int max_length);
+	//generates a number of names and returns them as a vector of strings
 	vector<string> getNames(int number);
 
 //class member variables
@@ -23,11 +25,15 @@ private:
 	//list of names passed in by user
 	//used to generate the map
 	vector<string> names;
-	//the maximum size of generated names (will be truncated if they exceed this)
-	int max_size;
-
+	//the maximum length of generated names (will be truncated if they exceed this)
+	int max_length;
+	//character used as to signal end of a name
+	const char END_OF_NAME = '0';
+	//populates dictionary for word generation
 	void populateMap();
+	//generates one names using the character map
 	string generateName();
+	//ensures name that has been generated passes tests (must have a vowel and must not be 1 character)
 	bool checkName(string name);
 };
 

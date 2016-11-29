@@ -1,26 +1,39 @@
 #include "Generator.h"
+//Class definition of Generator.h
 
 //The constructor will take a string of names to add to the map
 //as well as the max size of the generated names
-Generator::Generator(vector<string> names, int max_size) {
+Generator::Generator(vector<string> names, int max_length) {
 	//copy list of names into object for use
 	this->names = names;
 	//copy over max size
-	this->max_size = max_size;
+	this->max_length = max_length;
 	//call the populate routine to generate our map
 	populateMap();
 	//seed the randomizer
 	srand(time(NULL));
 }
 
-
+//Populates map with charactars as keys. This map has each character from
+//all input names as keys, and the string at those keys are all possible letters
+//that follow that character from input names. A 0 represents the end of a name
+//EXAMPLE: input names - Jake, Daniel, Bill
+//j - a
+//a - kn
+//k - e
+//e - 0l
+//d - a
+//n - i
+//i - el
+//l - 0l
+//B - i
 void Generator::populateMap() {
-	char next, last;
+	char next, last; //character after current to be added to value, last character in name
 
 	//loop through list of names adding the characters to 
 	//the probability map
 	for (string input : this->names) {
-		//loop through each character of the string
+		//loop through each character of the string (except last)
 		for (int i = 0; i < input.length() - 1; i++) {
 			next = input.at(i + 1);
 			next = tolower(next);
@@ -30,7 +43,7 @@ void Generator::populateMap() {
 		}
 		//now we need to handle the end of the name (use 0 as placeholder)
 		last = input.at(input.length() - 1);
-		this->charMap[last] += '0';
+		this->charMap[last] += this->END_OF_NAME;
 	}
 }
 
@@ -42,13 +55,14 @@ vector<string> Generator::getNames(int number) {
 	for (int i = 0; i < number; i++) {
 		//generate a new name and add to list
 		currentName = this->generateName();
-		//if the name is not a good one (i.e no vowels or too short)
-		//we generate a new one
+		//if the name is not a good one (i.e no vowels or too short we generate a new one
 		while (!checkName(currentName)) {
 			currentName = this->generateName();
 		}
+		//push back name to list
 		generatedNames.push_back(currentName);
 	}
+	//return list to user
 	return generatedNames;
 }
 
@@ -56,7 +70,7 @@ vector<string> Generator::getNames(int number) {
 string Generator::generateName() {
 	vector<char> startingChars; //holds first letters of passed in words, we only start with those
 	string name, next;
-	char cur;
+	char cur; //current character to add to name
 
 	//get all the characters input names started with
 	//we do this so that names begin with only those characters
@@ -68,17 +82,20 @@ string Generator::generateName() {
 	//first, we pick our starting letter, must be one in our map
 	cur = startingChars.at(rand() % size);
 
-	//0 is our end of word
-	while (cur != '0') {
+	//while the next character is not the end of a name
+	while (cur != this->END_OF_NAME) {
+		//add character to name
 		name += cur;
-		if (name.length() >= max_size)
+		//if we have passed max length, break
+		if (name.length() >= max_length)
 			break;
+		//get the next string of valid characters that come after current character
 		next = charMap[cur];
 		//now, get random char from next string
 		cur = next.at(rand() % (next.length()));
 	}
 	
-	//make first char in name uppercase
+	//make first letter in name uppercase
 	name.at(0) = toupper(name.at(0));
 	return name;
 }
