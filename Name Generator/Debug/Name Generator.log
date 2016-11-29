@@ -1,0 +1,6 @@
+﻿  Source.cpp
+  Generator.cpp
+c:\users\7275639\documents\github\random-name-generator\name generator\generator.cpp(28): warning C4018: '<': signed/unsigned mismatch
+c:\users\7275639\documents\github\random-name-generator\name generator\generator.cpp(48): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Name Generator.vcxproj -> C:\Users\7275639\Documents\GitHub\Random-Name-Generator\Debug\Name Generator.exe
