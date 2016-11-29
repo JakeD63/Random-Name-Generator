@@ -2,22 +2,23 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
 #include "Generator.h"
 
 using namespace std;
 
 //function prototypes
-vector<string> readFromFile();
-vector<string> readFromUser();
+vector<string> readFromFile(int& max_size);
+vector<string> readFromUser(int& max_size);
+bool hasVowel(string name);
 
 int main() {
 	vector<string> names, generatedNames;
 	ofstream fout;
-	int selection, num;
+	int selection, num, max_size = 0;
 	bool correctSelection = false;
 	char file;
-
+	cout << "Welcome to the name generator. Names will be generated based on your input.";
+	cout << "Generated names will only be as long as the longest name from your input." << endl << endl;
 	cout << "Make a selection from the menu below (enter its number)." << endl;
 	cout << "1: Input names from file" << endl;
 	cout << "2: Input names one at a time in the cmd prompt" << endl;
@@ -41,10 +42,10 @@ int main() {
 
 	switch (selection) {
 	case 1: 
-		names = readFromFile();
+		names = readFromFile(max_size);
 		break;
 	case 2:
-		names = readFromUser();
+		names = readFromUser(max_size);
 		break;
 	case 3:
 		cout << "3";
@@ -55,15 +56,28 @@ int main() {
 		return 0;
 	}
 
-	Generator nameGenerator(names);
+	if (names.empty()) {
+		cout << "List of names empty, exiting." << endl;
+		return 0;
+	}
+	Generator nameGenerator(names, max_size);
 
 	cin.clear();
 
 	cout << "How many names would you like to generate?" << endl;
-	cin >> num;
+	correctSelection = false;
+	while (!correctSelection) {
+		cin >> num;
+		if (cin.fail()) {
+			cout << "Please enter only a a single number. Exiting program." << endl;
+			return 0;
+		}
+		else {
+			correctSelection = true;
+		}
+	}
 
 	cout << "Do you want the output in a file? (y/n)" << endl;
-
 	correctSelection = false;
 	while (!correctSelection) {
 		cin >> file;
@@ -97,12 +111,12 @@ int main() {
 
 }
 
-vector<string> readFromFile() {
+vector<string> readFromFile(int& max_size) {
 	vector<string> names;
 	ifstream fin;
 	string file, nextName;
-	cout << "Enter the name filepath: " << endl;
-	cout << "Ensure the file with the names contains only one name per line (no special characters)" << endl;
+	cout << "Ensure the file with the names contains only one name per line (no special characters, words without vowels will be ignored)" << endl;
+	cout << "File name and path: ";
 	cin >> file;
 	if (cin.fail()) {
 		cout << "Please enter only the filepath. Try again.";
@@ -115,22 +129,36 @@ vector<string> readFromFile() {
 	}
 
 	while (fin >> nextName) {
-		names.push_back(nextName);
+		if (max_size < nextName.length())
+			max_size = nextName.length();
+		if(hasVowel(nextName))
+			names.push_back(nextName);
 	}
 	
 	fin.close();
 	return names;
 }
 
-vector<string> readFromUser() {
+vector<string> readFromUser(int& max_size) {
 	vector<string> names;
 	string input;
-	cout << "Enter one name at a time, followed by the enter key. When you are done, enter CTRL + Z" << endl;
+	cout << "Enter one name at a time, followed by the enter key. When you are done, enter CTRL + Z (words without vowels will be ignored)" << endl;
 	cin >> input;
 	while (!cin.eof()) {
-		names.push_back(input);
+		//keep track of max word size
+		if (max_size < input.length())
+			max_size = input.length();
+		if(hasVowel(input))
+			names.push_back(input);
 		cin >> input;
 	}
 
 	return names;
+}
+
+bool hasVowel(string name) {
+	if (name.find_first_of("aeiouy") == string::npos) {
+		return false;
+	}
+	return true;
 }

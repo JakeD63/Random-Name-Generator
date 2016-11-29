@@ -1,9 +1,12 @@
 #include "Generator.h"
 
 //The constructor will take a string of names to add to the map
-Generator::Generator(vector<string> names) {
+//as well as the max size of the generated names
+Generator::Generator(vector<string> names, int max_size) {
 	//copy list of names into object for use
 	this->names = names;
+	//copy over max size
+	this->max_size = max_size;
 	//call the populate routine to generate our map
 	populateMap();
 	//seed the randomizer
@@ -33,7 +36,6 @@ void Generator::populateMap() {
 	//used to pick first letter of a generated name
 	for (map<char, string>::iterator i = charMap.begin(); i != charMap.end(); i++) {
 		this->listOfKeys.push_back(i->first);
-		cout << i->first << endl;
 	}
 }
 
@@ -67,6 +69,8 @@ string Generator::generateName() {
 	//0 is our end of word
 	while (cur != '0') {
 		name += cur;
+		if (name.length() >= max_size)
+			break;
 		next = charMap[cur];
 		//now, get random char from next string
 		cur = next.at(rand() % (next.length())); //need -1 to avoid off by one

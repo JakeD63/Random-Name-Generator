@@ -4,7 +4,6 @@
 #include <map>
 #include <vector>
 #include <time.h>
-#include <iostream>
 
 using namespace std;
 
@@ -13,7 +12,7 @@ class Generator
 
 //class member functions
 public:
-	Generator(vector<string> names); //constructor
+	Generator(vector<string> names, int max_size);
 	vector<string> getNames(int number);
 
 //class member variables
@@ -27,6 +26,8 @@ private:
 	//list of all the keys in our map, generated after map is created
 	//used to pick first letter of our generated name
 	vector<char> listOfKeys;
+	//the maximum size of generated names (will be truncated if they exceed this)
+	int max_size;
 
 	void populateMap();
 	string generateName();
