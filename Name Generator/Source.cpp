@@ -28,7 +28,7 @@ int main() {
 	cout << "2: Input names one at a time in the cmd prompt" << endl;
 	cout << "3: Exit" << endl;
 
-	//Read Menu selection from user
+	//Read menu selection from user
 	while (!correctSelection) {
 		cin >> selection;
 		if (cin.fail()) {

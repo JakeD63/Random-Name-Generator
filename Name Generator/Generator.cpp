@@ -59,9 +59,17 @@ vector<string> Generator::getNames(int number) {
 		while (!checkName(currentName)) {
 			currentName = this->generateName();
 		}
-		//push back name to list
-		generatedNames.push_back(currentName);
+		//push back name to list, keeping in sorted order
+		vector<string>::iterator it = lower_bound(generatedNames.begin(), generatedNames.end(), currentName);
+		//check for duplicates
+		if (it == generatedNames.end() || *it != currentName) {
+			generatedNames.insert(it, currentName);
+		}
+		//if there was a duplicate, rerun current loop and get new name
+		else
+			i--;
 	}
+
 	//return list to user
 	return generatedNames;
 }
