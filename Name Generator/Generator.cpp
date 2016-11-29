@@ -61,7 +61,7 @@ vector<string> Generator::getNames(int number) {
 string Generator::generateName() {
 	string name, next;
 	char cur;
-	int size = listOfKeys.size(); //need -1 to avoid off by 1 error
+	int size = listOfKeys.size();
 	//first, we pick our starting letter, must be one in our map
 	cur = listOfKeys.at(rand() % size);
 
@@ -73,7 +73,7 @@ string Generator::generateName() {
 			break;
 		next = charMap[cur];
 		//now, get random char from next string
-		cur = next.at(rand() % (next.length())); //need -1 to avoid off by one
+		cur = next.at(rand() % (next.length()));
 	}
 	
 	//make first char in name uppercase
