@@ -32,11 +32,6 @@ void Generator::populateMap() {
 		last = input.at(input.length() - 1);
 		this->charMap[last] += '0';
 	}
-	//finally, we need to generate a list of keys in our map
-	//used to pick first letter of a generated name
-	for (map<char, string>::iterator i = charMap.begin(); i != charMap.end(); i++) {
-		this->listOfKeys.push_back(i->first);
-	}
 }
 
 //This function returns a list of generated names the size of the number passed in
@@ -59,12 +54,19 @@ vector<string> Generator::getNames(int number) {
 
 //generate a random name using the map we generated
 string Generator::generateName() {
+	vector<char> startingChars; //holds first letters of passed in words, we only start with those
 	string name, next;
 	char cur;
-	int size = listOfKeys.size(); //need -1 to avoid off by 1 error
-	//first, we pick our starting letter, must be one in our map
-	cur = listOfKeys.at(rand() % size);
 
+	//get all the characters input names started with
+	//we do this so that names begin with only those characters
+	//this way they have a good chance of taking a path that makes the most sense
+	for (string s : this->names)
+		startingChars.push_back(tolower(s.at(0)));
+
+	int size = startingChars.size();
+	//first, we pick our starting letter, must be one in our map
+	cur = startingChars.at(rand() % size);
 
 	//0 is our end of word
 	while (cur != '0') {
@@ -73,7 +75,7 @@ string Generator::generateName() {
 			break;
 		next = charMap[cur];
 		//now, get random char from next string
-		cur = next.at(rand() % (next.length())); //need -1 to avoid off by one
+		cur = next.at(rand() % (next.length()));
 	}
 	
 	//make first char in name uppercase
