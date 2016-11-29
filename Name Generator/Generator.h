@@ -13,7 +13,7 @@ class Generator
 
 //class member functions
 public:
-	Generator(vector<string> names);
+	Generator(vector<string> names); //constructor
 	vector<string> getNames(int number);
 
 //class member variables
