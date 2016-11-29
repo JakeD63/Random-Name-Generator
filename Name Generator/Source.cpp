@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -12,8 +13,10 @@ vector<string> readFromUser();
 
 int main() {
 	vector<string> names, generatedNames;
+	ofstream fout;
 	int selection, num;
 	bool correctSelection = false;
+	char file;
 
 	cout << "Make a selection from the menu below (enter its number)." << endl;
 	cout << "1: Input names from file" << endl;
@@ -22,8 +25,11 @@ int main() {
 
 	while (!correctSelection) {
 		cin >> selection;
-
-		if (selection != 1 && selection != 2 && selection != 3) {
+		if (cin.fail()) {
+			cout << "Please enter only an integer for the menu selection" << endl;
+			return 0;
+		}
+		else if (selection != 1 && selection != 2 && selection != 3) {
 			cout << "Please input a 1, 2, or 3 for your selection" << endl;
 		}
 		else {
@@ -56,18 +62,63 @@ int main() {
 	cout << "How many names would you like to generate?" << endl;
 	cin >> num;
 
+	cout << "Do you want the output in a file? (y/n)" << endl;
+
+	correctSelection = false;
+	while (!correctSelection) {
+		cin >> file;
+		if (cin.fail()) {
+			cout << "Please enter only a single character for your response." << endl;
+			cin.clear();
+			cin.ignore();
+		}
+		else if (file != 'y' && file != 'n') {
+			cout << "Please enter only y or n." << endl;
+		}
+		else {
+			correctSelection = true;
+		}
+	}
+
 	generatedNames = nameGenerator.getNames(num);
-	for (string s : generatedNames) {
-		cout << s << endl;
+	//if they did not want a file, output to console
+	if (file == 'n') {
+		for (string s : generatedNames) {
+			cout << s << endl;
+		}
+	}
+	//if they wanted a file output
+	else {
+		fout.open("Generated Names.txt");
+		for (string s : generatedNames) {
+			fout << s << endl;
+		}
 	}
 
 }
 
 vector<string> readFromFile() {
 	vector<string> names;
-	string file;
+	ifstream fin;
+	string file, nextName;
 	cout << "Enter the name filepath: " << endl;
+	cout << "Ensure the file with the names contains only one name per line (no special characters)" << endl;
 	cin >> file;
+	if (cin.fail()) {
+		cout << "Please enter only the filepath. Try again.";
+		exit(0);
+	}
+	fin.open(file);
+	if (!fin) {
+		cout << "Failed to open file, please try again.";
+		exit(0);
+	}
+
+	while (fin >> nextName) {
+		names.push_back(nextName);
+	}
+	
+	fin.close();
 	return names;
 }
 

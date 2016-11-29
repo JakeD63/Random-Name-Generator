@@ -1,4 +1,4 @@
-﻿Build started 11/28/2016 6:31:34 PM.
+﻿Build started 11/28/2016 7:31:56 PM.
      1>Project "C:\Users\futur_000\Documents\GitHub\Random-Name-Generator\Name Generator\Name Generator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          F:\Program Files\Visual Studio 2015 Community\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Generator.cpp
@@ -13,4 +13,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.84
+Time Elapsed 00:00:00.87

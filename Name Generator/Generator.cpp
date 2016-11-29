@@ -33,6 +33,7 @@ void Generator::populateMap() {
 	//used to pick first letter of a generated name
 	for (map<char, string>::iterator i = charMap.begin(); i != charMap.end(); i++) {
 		this->listOfKeys.push_back(i->first);
+		cout << i->first << endl;
 	}
 }
 
