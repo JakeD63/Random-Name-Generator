@@ -57,7 +57,9 @@ int main() {
 	cin >> num;
 
 	generatedNames = nameGenerator.getNames(num);
-	
+	for (string s : generatedNames) {
+		cout << s << endl;
+	}
 
 }
 

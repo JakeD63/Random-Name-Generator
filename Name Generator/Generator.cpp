@@ -6,17 +6,10 @@ Generator::Generator(vector<string> names) {
 	this->names = names;
 	//call the populate routine to generate our map
 	populateMap();
+	//seed the randomizer
+	srand(time(NULL));
 }
 
-
-//This function returns a list of generated names the size of the number passed in
-vector<string> Generator::getNames(int number) {
-	vector<string> generatedNames;
-	for (int i = 0; i < number; i++) {
-		generatedNames.push_back(this->generateName());
-	}
-	return generatedNames;
-}
 
 void Generator::populateMap() {
 	char next, last;
@@ -43,12 +36,29 @@ void Generator::populateMap() {
 	}
 }
 
+//This function returns a list of generated names the size of the number passed in
+vector<string> Generator::getNames(int number) {
+	vector<string> generatedNames;
+	bool validName = false;
+	string currentName;
+	for (int i = 0; i < number; i++) {
+		//generate a new name and add to list
+		currentName = this->generateName();
+		//if the name is not a good one (i.e no vowels or too short)
+		//we generate a new one
+		while (!checkName(currentName)) {
+			currentName = this->generateName();
+		}
+		generatedNames.push_back(currentName);
+	}
+	return generatedNames;
+}
+
 //generate a random name using the map we generated
 string Generator::generateName() {
-	srand(time(NULL));
 	string name, next;
 	char cur;
-	int size = listOfKeys.size() - 1; //need -1 to avoid off by 1 error
+	int size = listOfKeys.size(); //need -1 to avoid off by 1 error
 	//first, we pick our starting letter, must be one in our map
 	cur = listOfKeys.at(rand() % size);
 
@@ -58,14 +68,30 @@ string Generator::generateName() {
 		name += cur;
 		next = charMap[cur];
 		//now, get random char from next string
-		cur = next.at(rand() % (next.length() - 1)); //need -1 to avoid off by one
+		cur = next.at(rand() % (next.length())); //need -1 to avoid off by one
 	}
 	
 	//make first char in name uppercase
 	name.at(0) = toupper(name.at(0));
-	cout << "Name Generated: " << name << endl;
 	return name;
 }
 
+//This function ensures names make some sense
+//runs the generated name through some tests
+//if the name fails, return false
+bool Generator::checkName(string name) {
+	if (name.length() < 2) {
+		return false;
+	}
 
+	//check that name has at least one vowel (a, e, i, o, u or y)
+	//NOTE: technically, y is a vowel sometimes, but for names it is irrelevant
+	//(because y is a vowel if it is the only one from the above list in the word)
+	if (name.find_first_of("aeiouy") == string::npos) {
+		return false;
+	}
+
+	return true;
+	
+}
 

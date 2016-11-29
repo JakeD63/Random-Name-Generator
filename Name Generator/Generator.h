@@ -30,5 +30,6 @@ private:
 
 	void populateMap();
 	string generateName();
+	bool checkName(string name);
 };
 
