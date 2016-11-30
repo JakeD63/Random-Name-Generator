@@ -1,3 +1,30 @@
+/*************************************************************************//**
+ * @file 
+ *
+ * @mainpage Final Project - Random Name Generator
+ * 
+ * @section course_section Course Information
+ *
+ * @author Jake Davidson
+ * 
+ * @date November 30, 2016
+ * 
+ * @par Professor: 
+ *         Professor Rebenitsch
+ * 
+ * @par Course: 
+ *         Analysis of Algorithms
+ * 
+ * @par Location: 
+ *         McLaury 205
+ *
+ * @section program_section Program Information 
+ * 
+ * @details 
+ *
+ *****************************************************************************/
+
+
 #include <iostream>
 #include <fstream>
 #include <string>
