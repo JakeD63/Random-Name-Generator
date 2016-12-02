@@ -11,7 +11,7 @@ Generator::Generator(vector<string> names, int max_length) {
 	//call the populate routine to generate our map
 	populateMap();
 	//seed the randomizer
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 }
 
 //Populates map with charactars as keys. This map has each character from
@@ -86,7 +86,7 @@ string Generator::generateName() {
 	for (string s : this->names)
 		startingChars.push_back(tolower(s.at(0)));
 
-	int size = startingChars.size();
+	int size = (int)startingChars.size();
 	//first, we pick our starting letter, must be one in our map
 	cur = startingChars.at(rand() % size);
 

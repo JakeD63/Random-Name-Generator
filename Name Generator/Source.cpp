@@ -148,8 +148,8 @@ vector<string> readFromFile(int& max_length) {
 	//read in names and store in vector until the end of the file
 	while (fin >> nextName) {
 		//keep track of length of longest word
-		if (max_length < nextName.length())
-			max_length = nextName.length();
+		if (max_length < (int)nextName.length())
+			max_length = (int)nextName.length();
 		//ensure word has at least one vowel
 		if(hasVowel(nextName))
 			names.push_back(nextName);
@@ -171,8 +171,8 @@ vector<string> readFromUser(int& max_length) {
 	//loop until ctrl+z (eof)
 	while (!cin.eof()) {
 		//keep track of max word length
-		if (max_length < input.length())
-			max_length = input.length();
+		if (max_length < (int)input.length())
+			max_length = (int)input.length();
 		//ensure the word has at least one vowel
 		if(hasVowel(input))
 			names.push_back(input);
