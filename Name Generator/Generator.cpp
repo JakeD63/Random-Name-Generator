@@ -108,6 +108,28 @@ string Generator::generateName() {
 	return name;
 }
 
+//outputs information about the name generator
+//prints: 
+//characters and their mapped strings
+//the max size of generated words
+void Generator::printDebug() {
+	string currentString;
+	cout << endl << "DEBUG INFO" << endl;
+	//print max size of words
+	cout << "Max generated word size: " << this->max_length << endl << endl;
+	cout << "Character map from input data:" << endl << endl;
+	//print each character and its mapped string
+	//we sort the string before outputting to make it more readable
+	for (map<char, string>::iterator it = this->charMap.begin(); it != this->charMap.end(); it++) {
+		currentString = it->second;
+		sort(currentString.begin(), currentString.end());
+		cout << it->first << ": " << currentString << endl;
+	}
+	
+}
+
+
+
 //This function ensures names make some sense
 //runs the generated name through some tests
 //if the name fails, return false

@@ -5,6 +5,8 @@
 #include <vector>
 #include <time.h>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -17,6 +19,8 @@ public:
 	Generator(vector<string> names, int max_length);
 	//generates a number of names and returns them as a vector of strings
 	vector<string> getNames(int number);
+	//prints map and other debug info to console
+	void printDebug();
 
 //class member variables
 private:
