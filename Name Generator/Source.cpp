@@ -241,6 +241,10 @@ void sampleRun() {
 	int max_length = 0; //length of longest name in input
 	int genNum = 10; //number of names to generate
 	char io = 'n'; //output to console, not file
+	//output sample run information
+	cout << "Getting names from: " << file << endl;
+	cout << "Number of names to generate: " << genNum << endl;
+	cout << "You can change this in the sampleRun() function" << endl << endl;
 
 	fin.open(file);
 	if (!fin) {
@@ -272,6 +276,7 @@ void sampleRun() {
 //either to a file or to the console (depending on value of file paramater)
 void outputNames(vector<string> generatedNames, char file) {
 	ofstream fout; //used if user selects output to file
+	string fileName = "Generated Names.txt";
 	//if they chose output to console
 	if (file == 'n') {
 		//output all generated names to console
@@ -283,11 +288,13 @@ void outputNames(vector<string> generatedNames, char file) {
 	else {
 		//open file for output (file will be created if it does not exist)
 		//file is located in program directory
-		fout.open("Generated Names.txt");
+		fout.open(fileName);
 		//output all generated names to file
 		for (string s : generatedNames) {
 			fout << s << endl;
 		}
+
+		cout << "Names have been written to: " << fileName << " in the program directory." << endl;
 	}
 }
 
