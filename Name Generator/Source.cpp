@@ -36,6 +36,7 @@ using namespace std;
 //function prototypes
 vector<string> readFromFile(int& max_length);
 vector<string> readFromUser(int& max_length);
+void sampleRun();
 void outputNames(vector<string> generatedNames, char file);
 int getNum();
 char getIO();
@@ -53,7 +54,8 @@ int main() {
 	cout << "Make a selection from the menu below (enter its number)." << endl;
 	cout << "1: Input names from file" << endl;
 	cout << "2: Input names one at a time in the cmd prompt" << endl;
-	cout << "3: Exit" << endl;
+	cout << "3: Run with pre-configured settings. (Lord of the Rings names, output to console)" << endl;
+	cout << "4: Exit" << endl;
 
 	//Read menu selection from user
 	while (!correctSelection) {
@@ -62,7 +64,7 @@ int main() {
 			cout << "Please enter only an integer for the menu selection" << endl;
 			return 0;
 		}
-		else if (selection != 1 && selection != 2 && selection != 3) {
+		else if (selection != 1 && selection != 2 && selection != 3 && selection != 4) {
 			cout << "Please input a 1, 2, or 3 for your selection" << endl;
 		}
 		else {
@@ -82,6 +84,10 @@ int main() {
 		names = readFromUser(max_length);
 		break;
 	case 3:
+		sampleRun();
+		//after running the sample, exit the program
+		return 0;
+	case 4:
 		//exit the program
 		return 0;
 	default:
@@ -223,6 +229,43 @@ char getIO() {
 	}
 	//return user choice
 	return file;
+}
+
+//this function will read in names from a pre determined file and output
+//those names to the console. This is for quickly running a test of the program.
+void sampleRun() {
+	vector<string> names, generatedNames;
+	ifstream fin; //input stream to read file
+	string file = "samples/sample.txt"; //pre-determined file to run sample on
+	string nextName = ""; //holds name being read in
+	int max_length = 0; //length of longest name in input
+	int genNum = 10; //number of names to generate
+	char io = 'n'; //output to console, not file
+
+	fin.open(file);
+	if (!fin) {
+		cout << "Please ensure the sample file is located in the correct location. ";
+		cout << "This run is using path: " << file << endl;
+		exit(0);
+	}
+	//read in names and store in vector until the end of the file
+	while (fin >> nextName) {
+		//keep track of length of longest word
+		if (max_length < nextName.length())
+			max_length = nextName.length();
+		//ensure word has at least one vowel
+		if (hasVowel(nextName))
+			names.push_back(nextName);
+	}
+	//close stream
+	fin.close();
+
+	//generate names
+	Generator nameGenerator(names, max_length);
+	generatedNames = nameGenerator.getNames(genNum);
+	//output names
+	outputNames(generatedNames, io);
+
 }
 
 //output the generated names
