@@ -237,3 +237,6 @@ _Pvt_Extensions
 
 #Executables
 *.exe
+
+#Text Files
+Generated Names.txt
