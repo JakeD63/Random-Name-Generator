@@ -59,7 +59,7 @@ int main() {
 	cout << "Make a selection from the menu below (enter its number)." << endl;
 	cout << "1: Input names from file" << endl;
 	cout << "2: Input names one at a time in the cmd prompt" << endl;
-	cout << "3: Run with pre-configured settings. (Lord of the Rings names, output to console)" << endl;
+	cout << "3: Run with pre-configured settings. (samples/sample.txt, change settings in code)" << endl;
 	cout << "4: Exit" << endl;
 
 	//Read menu selection from user
@@ -291,6 +291,7 @@ void outputNames(vector<string> generatedNames, char file) {
 	//if they chose output to console
 	if (file == 'n') {
 		//output all generated names to console
+		cout << "Generated Names ------------------------------------------------------------------------" << endl;
 		for (string s : generatedNames) {
 			cout << s << endl;
 		}
