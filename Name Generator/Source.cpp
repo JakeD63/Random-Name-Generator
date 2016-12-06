@@ -41,10 +41,14 @@ void outputNames(vector<string> generatedNames, char file);
 int getNum();
 char getIO();
 bool hasVowel(string name);
-
-//Debug information
-//DEBUG: Set to true to output debug info
-//will not work with menu option 3, pre-configured settings
+/*
+Debug information, Set to true to test
+DEBUG: Set to true to output debug info
+This will show you the map generated based off your input words,
+showing extactly how the names were generated. Will also print out
+the complete path of every generated word, including words that did
+not get added to the final list because they were too short or did
+not contain a vowel */
 const bool DEBUG = true;
 
 int main() {
@@ -120,14 +124,10 @@ int main() {
 	file = getIO();
 
 	//generate names and store into list
-	generatedNames = nameGenerator.getNames(num);
+	generatedNames = nameGenerator.getNames(num, DEBUG);
 	//output the names to either a file or the console
 	outputNames(generatedNames, file);
 
-	//Debug call
-	if (DEBUG) {
-		nameGenerator.printDebug();
-	}
 	//end program
 	return 0;
 }
@@ -277,7 +277,7 @@ void sampleRun() {
 
 	//generate names
 	Generator nameGenerator(names, max_length);
-	generatedNames = nameGenerator.getNames(genNum);
+	generatedNames = nameGenerator.getNames(genNum, DEBUG);
 	//output names
 	outputNames(generatedNames, io);
 

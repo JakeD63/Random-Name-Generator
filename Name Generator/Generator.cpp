@@ -48,16 +48,24 @@ void Generator::populateMap() {
 }
 
 //This function returns a list of generated names the size of the number passed in
-vector<string> Generator::getNames(int number) {
+//debug -> prints out the path through map names takes to generate names, used for debugging and testing
+vector<string> Generator::getNames(int number, bool debug) {
 	vector<string> generatedNames;
 	bool validName = false;
 	string currentName;
+	if (debug) {
+		cout << "Printing the paths the program takes through character map. " <<
+			"NOTE: it removes duplicates from the possible next character string to make " <<
+			"the program more readable, all characters do not have the same probability." << endl;
+		cout << "Words with length of less than two or contain no vowels are shown, but not added "
+			<< "to the final list of generated names" << endl << endl;
+	}
 	for (int i = 0; i < number; i++) {
 		//generate a new name and add to list
-		currentName = this->generateName();
+		currentName = this->generateName(debug);
 		//if the name is not a good one (i.e no vowels or too short we generate a new one
 		while (!checkName(currentName)) {
-			currentName = this->generateName();
+			currentName = this->generateName(debug);
 		}
 		//push back name to list, keeping in sorted order
 		vector<string>::iterator it = lower_bound(generatedNames.begin(), generatedNames.end(), currentName);
@@ -66,16 +74,23 @@ vector<string> Generator::getNames(int number) {
 			generatedNames.insert(it, currentName);
 		}
 		//if there was a duplicate, rerun current loop and get new name
-		else
+		else {
 			i--;
+			if (debug)
+				cout << "Duplicate Word, not added to list" << endl;
+		}
 	}
-
+	//if the user specified debug information
+	//output the character map
+	if (debug)
+		this->printDebug();
 	//return list to user
 	return generatedNames;
 }
 
 //generate a random name using the map we generated
-string Generator::generateName() {
+//printPath -> print the path the name took through the character map
+string Generator::generateName(bool printPath) {
 	vector<char> startingChars; //holds first letters of passed in words, we only start with those
 	string name, next;
 	char cur; //current character to add to name
@@ -89,7 +104,9 @@ string Generator::generateName() {
 	int size = (int)startingChars.size();
 	//first, we pick our starting letter, must be one in our map
 	cur = startingChars.at(rand() % size);
-
+	//if testing, print the starting character
+	if (printPath)
+		cout << "Start: " << cur;
 	//while the next character is not the end of a name
 	while (cur != this->END_OF_NAME) {
 		//add character to name
@@ -101,7 +118,21 @@ string Generator::generateName() {
 		next = charMap[cur];
 		//now, get random char from next string
 		cur = next.at(rand() % (next.length()));
+		
+
+		//if we are testing, print the possible choices and the selected char
+		if (printPath) {
+			//sort names for output
+			sort(next.begin(), next.end());
+			//remove duplicate characters (NOTE: this means the readout does not contain
+			//probabilities, but if it did the output would be unreadable because if would be huge) 
+			next.erase(std::unique(next.begin(), next.end()), next.end());
+			cout << " -> " << next << ", " << cur;
+		}
 	}
+	//if we are testing, end the output line
+	if (printPath)
+		cout << endl;
 	
 	//make first letter in name uppercase
 	name.at(0) = toupper(name.at(0));
@@ -125,6 +156,7 @@ void Generator::printDebug() {
 		sort(currentString.begin(), currentString.end());
 		cout << it->first << ": " << currentString << endl;
 	}
+	cout << endl;
 	
 }
 

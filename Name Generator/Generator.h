@@ -18,9 +18,8 @@ public:
 	//constructor, takes input names and max length of generated words
 	Generator(vector<string> names, int max_length);
 	//generates a number of names and returns them as a vector of strings
-	vector<string> getNames(int number);
-	//prints map and other debug info to console
-	void printDebug();
+	vector<string> getNames(int number, bool debug);
+
 
 //class member variables
 private:
@@ -37,8 +36,10 @@ private:
 	//populates dictionary for word generation
 	void populateMap();
 	//generates one names using the character map
-	string generateName();
+	string generateName(bool debug);
 	//ensures name that has been generated passes tests (must have a vowel and must not be 1 character)
 	bool checkName(string name);
+	//prints map and other debug info to console
+	void printDebug();
 };
 
